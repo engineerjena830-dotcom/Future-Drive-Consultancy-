@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Future Drive Consultancy — Payment System</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #C0392B; --red-light: #e84040; --gold: #F1C40F; --gold-dark: #d4a800;
+  --navy: #1A2980; --navy-dark: #0f1a5a; --navy-light: #26348a;
+  --white: #fff; --light: #f7f8fc; --gray: #6c757d; --border: #e8eaf0;
+  --green: #16a34a; --green-light: #dcfce7;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'DM Sans',sans-serif; background:var(--light); color:#1a1a2e; min-height:100vh; }
+
+/* HEADER */
+.header {
+  background: linear-gradient(135deg, var(--navy-dark), var(--navy));
+  padding: 0 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 70px;
+  box-shadow: 0 4px 20px rgba(15,26,90,0.3);
+  position: sticky; top:0; z-index:100;
+}
+.header-logo { display:flex; align-items:center; gap:12px; }
+.header-logo svg { width:44px; height:44px; }
+.header-logo-text .name { font-family:'Playfair Display',serif; font-size:17px; color:white; font-weight:900; line-height:1.1; }
+.header-logo-text .sub { font-size:10px; color:var(--gold); letter-spacing:1px; text-transform:uppercase; font-weight:600; }
+.header-right { display:flex; align-items:center; gap:16px; }
+.header-badge {
+  background: rgba(241,196,15,0.15); border:1px solid rgba(241,196,15,0.3);
+  color:var(--gold); font-size:12px; font-weight:700; padding:6px 14px;
+  border-radius:50px; letter-spacing:0.5px;
+}
+.header-date { color:rgba(255,255,255,0.5); font-size:13px; font-family:'DM Mono',monospace; }
+
+/* TABS */
+.tabs-bar {
+  background:white; border-bottom:2px solid var(--border);
+  padding:0 32px; display:flex; gap:0;
+  box-shadow:0 2px 8px rgba(0,0,0,0.04);
+}
+.tab-btn {
+  padding:18px 28px; border:none; background:transparent; font-family:'DM Sans',sans-serif;
+  font-size:14px; font-weight:600; color:var(--gray); cursor:pointer;
+  border-bottom:3px solid transparent; margin-bottom:-2px; transition:all 0.2s;
+  display:flex; align-items:center; gap:8px;
+}
+.tab-btn:hover { color:var(--navy); }
+.tab-btn.active { color:var(--navy); border-bottom-color:var(--red); }
+.tab-btn .tab-count {
+  background:var(--navy); color:white; border-radius:50px;
+  font-size:11px; padding:2px 8px; font-weight:700;
+}
+
+/* LAYOUT */
+.main { padding:28px 32px; max-width:1300px; margin:0 auto; }
+.page { display:none; }
+.page.active { display:block; animation:fadeIn 0.3s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+/* DASHBOARD STATS */
+.stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-bottom:28px; }
+.stat-card {
+  background:white; border-radius:16px; padding:24px;
+  border:1.5px solid var(--border); position:relative; overflow:hidden;
+  transition:transform 0.2s, box-shadow 0.2s;
+}
+.stat-card:hover { transform:translateY(-3px); box-shadow:0 10px 30px rgba(0,0,0,0.08); }
+.stat-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:4px;
+}
+.stat-card:nth-child(1)::before { background:linear-gradient(90deg,var(--navy),var(--navy-light)); }
+.stat-card:nth-child(2)::before { background:linear-gradient(90deg,var(--green),#22c55e); }
+.stat-card:nth-child(3)::before { background:linear-gradient(90deg,var(--gold-dark),var(--gold)); }
+.stat-card:nth-child(4)::before { background:linear-gradient(90deg,var(--red),var(--red-light)); }
+.stat-icon { font-size:28px; margin-bottom:12px; }
+.stat-val { font-family:'Playfair Display',serif; font-size:32px; font-weight:900; color:var(--navy-dark); line-height:1; margin-bottom:6px; }
+.stat-label { font-size:13px; color:var(--gray); font-weight:500; }
+.stat-change { font-size:12px; color:var(--green); font-weight:600; margin-top:6px; }
+
+/* FORM CARD */
+.form-card {
+  background:white; border-radius:20px; border:1.5px solid var(--border);
+  overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.05);
+}
+.form-card-header {
+  background:linear-gradient(135deg, var(--navy-dark), var(--navy));
+  padding:24px 32px; display:flex; align-items:center; justify-content:space-between;
+}
+.form-card-header h2 { font-family:'Playfair Display',serif; font-size:22px; color:white; }
+.form-card-header p { color:rgba(255,255,255,0.6); font-size:13px; margin-top:4px; }
+.receipt-num {
+  background:rgba(241,196,15,0.15); border:1px solid rgba(241,196,15,0.4);
+  color:var(--gold); font-family:'DM Mono',monospace; font-size:14px; font-weight:600;
+  padding:8px 16px; border-radius:8px;
+}
+.form-body { padding:32px; }
+.form-section-title {
+  font-size:11px; font-weight:800; letter-spacing:2px; color:var(--red);
+  text-transform:uppercase; margin-bottom:16px; padding-bottom:8px;
+  border-bottom:1.5px solid var(--border); display:flex; align-items:center; gap:8px;
+}
+.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:28px; }
+.form-grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; margin-bottom:28px; }
+.form-group { display:flex; flex-direction:column; gap:6px; }
+.form-group.full { grid-column:1/-1; }
+.form-group label { font-size:12px; font-weight:700; color:#444; text-transform:uppercase; letter-spacing:0.6px; }
+.form-group input, .form-group select, .form-group textarea {
+  padding:12px 14px; border:1.5px solid var(--border); border-radius:10px;
+  font-family:'DM Sans',sans-serif; font-size:14px; color:#222; background:white;
+  outline:none; transition:all 0.2s;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color:var(--navy); box-shadow:0 0 0 3px rgba(26,41,128,0.1);
+}
+.form-group input[type="number"] { font-family:'DM Mono',monospace; }
+
+/* ITEMS TABLE */
+.items-section { margin-bottom:28px; }
+.items-table { width:100%; border-collapse:collapse; }
+.items-table th {
+  background:var(--light); padding:12px 14px; text-align:left;
+  font-size:11px; font-weight:700; color:var(--gray); text-transform:uppercase;
+  letter-spacing:0.8px; border-bottom:2px solid var(--border);
+}
+.items-table td { padding:12px 14px; border-bottom:1px solid var(--border); vertical-align:middle; }
+.items-table tr:last-child td { border-bottom:none; }
+.items-table input, .items-table select {
+  width:100%; padding:9px 12px; border:1.5px solid var(--border); border-radius:8px;
+  font-family:'DM Sans',sans-serif; font-size:13.5px; color:#222; outline:none;
+  transition:border-color 0.2s; background:white;
+}
+.items-table input:focus, .items-table select:focus { border-color:var(--navy); }
+.items-table input[type="number"] { font-family:'DM Mono',monospace; }
+.item-total { font-family:'DM Mono',monospace; font-weight:700; color:var(--navy-dark); font-size:14px; }
+.btn-remove {
+  background:rgba(192,57,43,0.08); color:var(--red); border:none;
+  width:32px; height:32px; border-radius:8px; cursor:pointer; font-size:16px;
+  transition:all 0.2s; display:flex; align-items:center; justify-content:center;
+}
+.btn-remove:hover { background:var(--red); color:white; }
+.btn-add-item {
+  background:rgba(26,41,128,0.06); border:1.5px dashed rgba(26,41,128,0.2);
+  color:var(--navy); padding:10px 20px; border-radius:10px; cursor:pointer;
+  font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600;
+  transition:all 0.2s; display:inline-flex; align-items:center; gap:8px; margin-top:12px;
+}
+.btn-add-item:hover { background:rgba(26,41,128,0.1); border-color:var(--navy); }
+
+/* TOTALS */
+.totals-box {
+  background:var(--light); border-radius:14px; padding:20px 24px;
+  border:1.5px solid var(--border); margin-bottom:28px;
+}
+.totals-row { display:flex; justify-content:space-between; align-items:center; padding:8px 0; }
+.totals-row:not(:last-child) { border-bottom:1px solid var(--border); }
+.totals-label { font-size:14px; color:var(--gray); font-weight:500; }
+.totals-val { font-family:'DM Mono',monospace; font-size:14px; font-weight:600; color:var(--navy-dark); }
+.totals-row.grand .totals-label { font-size:16px; font-weight:800; color:var(--navy-dark); }
+.totals-row.grand .totals-val { font-size:20px; font-weight:900; color:var(--navy-dark); }
+.discount-input {
+  display:flex; align-items:center; gap:8px;
+}
+.discount-input input {
+  width:80px; padding:6px 10px; border:1.5px solid var(--border); border-radius:8px;
+  font-family:'DM Mono',monospace; font-size:13px; outline:none; text-align:center;
+  transition:border-color 0.2s;
+}
+.discount-input input:focus { border-color:var(--navy); }
+
+/* FORM ACTIONS */
+.form-actions { display:flex; gap:14px; justify-content:flex-end; }
+.btn-preview {
+  background:transparent; border:2px solid var(--navy); color:var(--navy);
+  padding:14px 28px; border-radius:12px; font-family:'DM Sans',sans-serif;
+  font-size:15px; font-weight:700; cursor:pointer; transition:all 0.2s;
+  display:flex; align-items:center; gap:8px;
+}
+.btn-preview:hover { background:var(--navy); color:white; }
+.btn-generate {
+  background:linear-gradient(135deg,var(--red),var(--red-light));
+  border:none; color:white; padding:14px 32px; border-radius:12px;
+  font-family:'DM Sans',sans-serif; font-size:15px; font-weight:700;
+  cursor:pointer; box-shadow:0 6px 20px rgba(192,57,43,0.4);
+  transition:all 0.3s; display:flex; align-items:center; gap:8px;
+}
+.btn-generate:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(192,57,43,0.5); }
+
+/* RECEIPT MODAL */
+.modal-overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(15,26,90,0.7); backdrop-filter:blur(6px);
+  z-index:1000; align-items:center; justify-content:center; padding:20px;
+}
+.modal-overlay.open { display:flex; animation:fadeIn 0.3s ease; }
+.modal-box {
+  background:white; border-radius:20px; max-width:780px; width:100%;
+  max-height:90vh; overflow-y:auto;
+  box-shadow:0 30px 80px rgba(0,0,0,0.3);
+  animation:slideUp 0.3s ease;
+}
+@keyframes slideUp { from{transform:translateY(30px);opacity:0} to{transform:translateY(0);opacity:1} }
+.modal-actions {
+  display:flex; gap:12px; padding:20px 28px;
+  border-bottom:1.5px solid var(--border);
+  background:var(--light);
+  border-radius:20px 20px 0 0;
+}
+.btn-print {
+  background:linear-gradient(135deg,var(--navy),var(--navy-light));
+  color:white; border:none; padding:11px 24px; border-radius:10px;
+  font-family:'DM Sans',sans-serif; font-size:14px; font-weight:700;
+  cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:8px;
+}
+.btn-print:hover { transform:translateY(-1px); box-shadow:0 6px 16px rgba(26,41,128,0.4); }
+.btn-close-modal {
+  background:rgba(192,57,43,0.08); border:1.5px solid rgba(192,57,43,0.2);
+  color:var(--red); padding:11px 20px; border-radius:10px;
+  font-family:'DM Sans',sans-serif; font-size:14px; font-weight:700;
+  cursor:pointer; transition:all 0.2s; margin-left:auto;
+}
+.btn-close-modal:hover { background:var(--red); color:white; }
+
+/* RECEIPT DOCUMENT */
+#receiptDoc { padding:40px 48px; font-family:'DM Sans',sans-serif; }
+.receipt-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:36px; padding-bottom:28px; border-bottom:2.5px solid var(--border); }
+.receipt-company .name { font-family:'Playfair Display',serif; font-size:26px; font-weight:900; color:var(--navy-dark); line-height:1.1; }
+.receipt-company .tag { font-size:11px; color:var(--red); font-weight:700; letter-spacing:1.5px; text-transform:uppercase; margin-top:4px; }
+.receipt-company .contact { font-size:12px; color:var(--gray); margin-top:10px; line-height:1.8; }
+.receipt-badge-box { text-align:right; }
+.receipt-badge-title { font-family:'Playfair Display',serif; font-size:32px; font-weight:900; color:var(--navy); letter-spacing:-1px; }
+.receipt-num-big { font-family:'DM Mono',monospace; font-size:14px; color:var(--gray); margin-top:6px; }
+.receipt-date-big { font-size:13px; color:var(--gray); margin-top:4px; }
+.status-badge {
+  display:inline-block; margin-top:10px;
+  padding:4px 14px; border-radius:50px; font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:1px;
+}
+.status-paid { background:var(--green-light); color:var(--green); }
+.status-pending { background:rgba(241,196,15,0.15); color:#92600a; }
+.status-partial { background:rgba(26,41,128,0.08); color:var(--navy); }
+
+.receipt-parties { display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-bottom:32px; }
+.party-box { background:var(--light); border-radius:12px; padding:18px 22px; border:1.5px solid var(--border); }
+.party-label { font-size:10px; font-weight:800; letter-spacing:2px; color:var(--red); text-transform:uppercase; margin-bottom:10px; }
+.party-name { font-family:'Playfair Display',serif; font-size:17px; font-weight:700; color:var(--navy-dark); margin-bottom:6px; }
+.party-detail { font-size:13px; color:var(--gray); line-height:1.8; }
+
+.receipt-items { margin-bottom:28px; }
+.receipt-items table { width:100%; border-collapse:collapse; }
+.receipt-items th {
+  background:var(--navy-dark); color:white; padding:12px 16px;
+  text-align:left; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px;
+}
+.receipt-items th:last-child { text-align:right; }
+.receipt-items td { padding:13px 16px; border-bottom:1px solid var(--border); font-size:14px; }
+.receipt-items td:last-child { text-align:right; font-family:'DM Mono',monospace; font-weight:600; }
+.receipt-items tr:nth-child(even) td { background:rgba(247,248,252,0.8); }
+
+.receipt-totals { display:flex; justify-content:flex-end; margin-bottom:32px; }
+.receipt-totals-inner { width:320px; }
+.r-total-row { display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px solid var(--border); font-size:14px; }
+.r-total-row .r-label { color:var(--gray); }
+.r-total-row .r-val { font-family:'DM Mono',monospace; font-weight:600; color:var(--navy-dark); }
+.r-total-row.grand { padding:14px 0 0; border-bottom:none; }
+.r-total-row.grand .r-label { font-size:16px; font-weight:800; color:var(--navy-dark); }
+.r-total-row.grand .r-val { font-size:22px; font-weight:900; color:var(--navy-dark); }
+
+.receipt-payment-info { background:rgba(26,41,128,0.04); border:1.5px solid rgba(26,41,128,0.1); border-radius:12px; padding:18px 22px; margin-bottom:28px; }
+.receipt-payment-info h4 { font-size:11px; font-weight:800; letter-spacing:2px; color:var(--navy); text-transform:uppercase; margin-bottom:12px; }
+.payment-detail-row { display:flex; gap:8px; font-size:13px; margin-bottom:6px; }
+.payment-detail-row .pd-label { color:var(--gray); font-weight:600; min-width:120px; }
+.payment-detail-row .pd-val { color:var(--navy-dark); font-weight:500; }
+
+.receipt-notes { background:rgba(241,196,15,0.06); border-left:4px solid var(--gold-dark); padding:14px 18px; border-radius:0 10px 10px 0; margin-bottom:32px; font-size:13px; color:#555; line-height:1.7; }
+
+.receipt-footer { text-align:center; padding-top:24px; border-top:1.5px solid var(--border); }
+.receipt-footer .thank-you { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:var(--navy-dark); margin-bottom:6px; }
+.receipt-footer .motto { font-size:12px; color:var(--gray); font-style:italic; }
+.receipt-footer .contacts { font-size:12px; color:var(--gray); margin-top:10px; }
+
+/* RECEIPTS LIST */
+.list-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+.list-header h2 { font-family:'Playfair Display',serif; font-size:26px; color:var(--navy-dark); }
+.search-box {
+  display:flex; align-items:center; gap:10px;
+  background:white; border:1.5px solid var(--border); border-radius:10px; padding:10px 16px;
+}
+.search-box input { border:none; outline:none; font-family:'DM Sans',sans-serif; font-size:14px; width:220px; }
+.receipts-table-wrap { background:white; border-radius:16px; border:1.5px solid var(--border); overflow:hidden; }
+.receipts-table { width:100%; border-collapse:collapse; }
+.receipts-table th { background:var(--light); padding:14px 18px; text-align:left; font-size:11px; font-weight:700; color:var(--gray); text-transform:uppercase; letter-spacing:0.8px; border-bottom:2px solid var(--border); }
+.receipts-table td { padding:14px 18px; border-bottom:1px solid var(--border); font-size:14px; }
+.receipts-table tr:last-child td { border-bottom:none; }
+.receipts-table tr:hover td { background:rgba(247,248,252,0.8); }
+.r-name { font-weight:700; color:var(--navy-dark); }
+.r-program { font-size:12px; color:var(--gray); margin-top:2px; }
+.r-amount { font-family:'DM Mono',monospace; font-weight:700; color:var(--navy-dark); }
+.r-num-cell { font-family:'DM Mono',monospace; font-size:12px; color:var(--gray); }
+.badge { display:inline-block; padding:3px 10px; border-radius:50px; font-size:11px; font-weight:700; }
+.badge-paid { background:var(--green-light); color:var(--green); }
+.badge-pending { background:rgba(241,196,15,0.15); color:#92600a; }
+.badge-partial { background:rgba(26,41,128,0.08); color:var(--navy); }
+.btn-view { background:rgba(26,41,128,0.07); color:var(--navy); border:none; padding:7px 14px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s; }
+.btn-view:hover { background:var(--navy); color:white; }
+.empty-state { text-align:center; padding:60px; }
+.empty-icon { font-size:56px; margin-bottom:16px; }
+.empty-state p { color:var(--gray); font-size:15px; }
+
+/* PRINT STYLES */
+@media print {
+  .modal-actions, .header, .tabs-bar, .main { display:none !important; }
+  .modal-overlay { position:static; background:none; padding:0; display:block; }
+  .modal-box { box-shadow:none; max-height:none; border-radius:0; }
+  #receiptDoc { padding:20px 24px; }
+}
+
+@media (max-width:768px) {
+  .main { padding:16px; }
+  .stats-grid { grid-template-columns:1fr 1fr; }
+  .form-grid, .form-grid-3 { grid-template-columns:1fr; }
+  .header { padding:0 16px; }
+  .tabs-bar { padding:0 8px; overflow-x:auto; }
+  .tab-btn { padding:14px 16px; font-size:13px; white-space:nowrap; }
+  .receipt-header { flex-direction:column; gap:20px; }
+  .receipt-parties { grid-template-columns:1fr; }
+  #receiptDoc { padding:24px 20px; }
+  .form-body { padding:20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-logo">
+    <svg viewBox="0 0 52 52" fill="none">
+      <circle cx="26" cy="26" r="26" fill="#1A2980"/>
+      <path d="M14 38 L26 18 L38 38" stroke="#F1C40F" stroke-width="2.5" stroke-linecap="round"/>
+      <rect x="18" y="10" width="16" height="3" rx="1.5" fill="#C0392B"/>
+      <polygon points="26,5 18,10 34,10" fill="#C0392B"/>
+      <circle cx="26" cy="11.5" r="2" fill="#F1C40F"/>
+    </svg>
+    <div class="header-logo-text">
+      <div class="name">Future Drive Consultancy</div>
+      <div class="sub">Payment & Receipt System</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="header-badge">💳 Finance Portal</span>
+    <span class="header-date" id="headerDate"></span>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="switchTab('dashboard')">📊 Dashboard</button>
+  <button class="tab-btn" onclick="switchTab('new')">➕ New Payment</button>
+  <button class="tab-btn" onclick="switchTab('receipts')">🧾 All Receipts <span class="tab-count" id="receiptCount">0</span></button>
+</div>
+
+<div class="main">
+
+  <!-- DASHBOARD -->
+  <div class="page active" id="tab-dashboard">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div class="stat-val" id="statTotal">$0</div>
+        <div class="stat-label">Total Revenue</div>
+        <div class="stat-change" id="statTotalCount">0 payments</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-val" id="statPaid">$0</div>
+        <div class="stat-label">Paid in Full</div>
+        <div class="stat-change" id="statPaidCount">0 receipts</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-val" id="statPending">$0</div>
+        <div class="stat-label">Pending Payments</div>
+        <div class="stat-change" style="color:#92600a" id="statPendingCount">0 receipts</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🎓</div>
+        <div class="stat-val" id="statStudents">0</div>
+        <div class="stat-label">Total Students</div>
+        <div class="stat-change" id="statMonth">This month</div>
+      </div>
+    </div>
+
+    <!-- RECENT RECEIPTS -->
+    <div class="receipts-table-wrap">
+      <div style="padding:20px 24px 0; display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:18px;color:var(--navy-dark);">Recent Receipts</h3>
+        <button class="btn-generate" style="font-size:13px;padding:9px 18px" onclick="switchTab('new')">+ New Payment</button>
+      </div>
+      <div id="dashRecentTable" style="padding:12px 0;">
+        <div class="empty-state">
+          <div class="empty-icon">📋</div>
+          <p>No receipts yet. Create your first payment above!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEW PAYMENT FORM -->
+  <div class="page" id="tab-new">
+    <div class="form-card">
+      <div class="form-card-header">
+        <div>
+          <h2>New Payment Receipt</h2>
+          <p>Fill in the details below to generate a professional receipt</p>
+        </div>
+        <div class="receipt-num" id="receiptNumDisplay">REC-001</div>
+      </div>
+      <div class="form-body">
+
+        <!-- STUDENT INFO -->
+        <div class="form-section-title">👤 Student Information</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Student Full Name *</label>
+            <input type="text" id="studentName" placeholder="e.g. Tatenda Moyo" required>
+          </div>
+          <div class="form-group">
+            <label>Student ID / Passport No.</label>
+            <input type="text" id="studentId" placeholder="e.g. ZW1234567">
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="studentEmail" placeholder="student@email.com">
+          </div>
+          <div class="form-group">
+            <label>Phone / WhatsApp</label>
+            <input type="tel" id="studentPhone" placeholder="+263 77...">
+          </div>
+          <div class="form-group">
+            <label>Country of Origin</label>
+            <input type="text" id="studentCountry" placeholder="Zimbabwe">
+          </div>
+          <div class="form-group">
+            <label>Program Enrolled</label>
+            <select id="studentProgram">
+              <option value="">Select Program...</option>
+              <option>MBBS / Medical Degree</option>
+              <option>Bachelor's Degree</option>
+              <option>Master's Degree</option>
+              <option>PhD / Doctoral Program</option>
+              <option>Diploma Program</option>
+              <option>Chinese Language Course</option>
+              <option>Consultation Fee</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Target University</label>
+            <input type="text" id="studentUniversity" placeholder="e.g. Wuhan University">
+          </div>
+          <div class="form-group">
+            <label>Intended Intake</label>
+            <select id="studentIntake">
+              <option>March 2026</option>
+              <option>September 2026</option>
+              <option>March 2027</option>
+              <option>September 2027</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- PAYMENT INFO -->
+        <div class="form-section-title">💳 Payment Details</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Payment Date *</label>
+            <input type="date" id="paymentDate">
+          </div>
+          <div class="form-group">
+            <label>Payment Method</label>
+            <select id="paymentMethod">
+              <option>Bank Transfer / EFT</option>
+              <option>Cash</option>
+              <option>Mobile Money (EcoCash)</option>
+              <option>Western Union</option>
+              <option>WorldRemit</option>
+              <option>Cryptocurrency</option>
+              <option>Credit / Debit Card</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Transaction / Reference No.</label>
+            <input type="text" id="transactionRef" placeholder="e.g. TXN-98765432">
+          </div>
+          <div class="form-group">
+            <label>Currency</label>
+            <select id="currency">
+              <option value="USD">USD ($)</option>
+              <option value="CNY">CNY (¥)</option>
+              <option value="ZWL">ZWL (Z$)</option>
+              <option value="EUR">EUR (€)</option>
+              <option value="GBP">GBP (£)</option>
+              <option value="ZAR">ZAR (R)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Payment Status</label>
+            <select id="paymentStatus">
+              <option value="paid">Paid in Full</option>
+              <option value="partial">Partial Payment</option>
+              <option value="pending">Pending</option>
+            </select>
+          </div>
+          <div class="form-group" id="dueAmountGroup" style="display:none">
+            <label>Balance Due</label>
+            <input type="number" id="balanceDue" placeholder="0.00" min="0" step="0.01">
+          </div>
+        </div>
+
+        <!-- LINE ITEMS -->
+        <div class="form-section-title items-section">📋 Services / Items</div>
+        <div class="items-section">
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th style="width:40%">Description</th>
+                <th style="width:20%">Category</th>
+                <th style="width:12%">Qty</th>
+                <th style="width:15%">Unit Price</th>
+                <th style="width:10%">Total</th>
+                <th style="width:3%"></th>
+              </tr>
+            </thead>
+            <tbody id="itemsBody">
+              <tr id="item-1">
+                <td><input type="text" placeholder="e.g. University Application Fee" oninput="calcTotals()"></td>
+                <td>
+                  <select oninput="calcTotals()">
+                    <option>Application Fee</option>
+                    <option>Consultation Fee</option>
+                    <option>Visa Assistance</option>
+                    <option>Tuition Fee</option>
+                    <option>Scholarship Processing</option>
+                    <option>Pre-Departure Support</option>
+                    <option>Document Processing</option>
+                    <option>Other</option>
+                  </select>
+                </td>
+                <td><input type="number" value="1" min="1" oninput="calcTotals()"></td>
+                <td><input type="number" placeholder="0.00" min="0" step="0.01" oninput="calcTotals()"></td>
+                <td class="item-total" id="total-1">0.00</td>
+                <td><button class="btn-remove" onclick="removeItem(1)">×</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <button class="btn-add-item" onclick="addItem()">+ Add Another Item</button>
+        </div>
+
+        <!-- TOTALS -->
+        <div class="totals-box">
+          <div class="totals-row">
+            <span class="totals-label">Subtotal</span>
+            <span class="totals-val" id="subtotalDisplay">$0.00</span>
+          </div>
+          <div class="totals-row">
+            <span class="totals-label">Discount</span>
+            <span class="totals-val">
+              <div class="discount-input">
+                <input type="number" id="discountVal" placeholder="0" min="0" oninput="calcTotals()">
+                <span style="color:var(--gray);font-size:13px">%</span>
+              </div>
+            </span>
+          </div>
+          <div class="totals-row">
+            <span class="totals-label">Tax / VAT</span>
+            <span class="totals-val">
+              <div class="discount-input">
+                <input type="number" id="taxVal" placeholder="0" min="0" oninput="calcTotals()">
+                <span style="color:var(--gray);font-size:13px">%</span>
+              </div>
+            </span>
+          </div>
+          <div class="totals-row grand">
+            <span class="totals-label">TOTAL DUE</span>
+            <span class="totals-val" id="grandTotalDisplay">$0.00</span>
+          </div>
+        </div>
+
+        <!-- NOTES -->
+        <div class="form-section-title">📝 Notes & Terms</div>
+        <div class="form-group" style="margin-bottom:28px">
+          <label>Additional Notes (optional)</label>
+          <textarea id="paymentNotes" rows="3" placeholder="e.g. This payment confirms the student's application submission to Wuhan University for the September 2026 intake..."></textarea>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="form-actions">
+          <button class="btn-preview" onclick="previewReceipt()">👁 Preview Receipt</button>
+          <button class="btn-generate" onclick="generateAndSave()">🎓 Generate & Save Receipt</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECEIPTS LIST -->
+  <div class="page" id="tab-receipts">
+    <div class="list-header">
+      <h2 style="font-family:'Playfair Display',serif;font-size:28px;color:var(--navy-dark);">All Receipts</h2>
+      <div class="search-box">
+        <span>🔍</span>
+        <input type="text" id="searchInput" placeholder="Search by name, receipt no..." oninput="renderReceiptsList()">
+      </div>
+    </div>
+    <div class="receipts-table-wrap">
+      <div id="receiptsListContainer">
+        <div class="empty-state">
+          <div class="empty-icon">🧾</div>
+          <p>No receipts yet. Create your first payment to get started!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- RECEIPT MODAL -->
+<div class="modal-overlay" id="receiptModal">
+  <div class="modal-box">
+    <div class="modal-actions">
+      <button class="btn-print" onclick="window.print()">🖨️ Print Receipt</button>
+      <button class="btn-print" style="background:linear-gradient(135deg,var(--green),#22c55e)" onclick="downloadReceipt()">⬇️ Save as PDF</button>
+      <button class="btn-close-modal" onclick="closeModal()">✕ Close</button>
+    </div>
+    <div id="receiptDoc"></div>
+  </div>
+</div>
+
+<script>
+// STATE
+let receipts = JSON.parse(localStorage.getItem('fdc_receipts') || '[]');
+let itemCount = 1;
+let currentReceiptNum = receipts.length + 1;
+let viewingReceipt = null;
+
+// INIT
+document.addEventListener('DOMContentLoaded', () => {
+  const now = new Date();
+  document.getElementById('headerDate').textContent = now.toLocaleDateString('en-GB', {weekday:'short',day:'numeric',month:'short',year:'numeric'});
+  document.getElementById('paymentDate').value = now.toISOString().split('T')[0];
+  updateReceiptNumDisplay();
+  updateDashboard();
+  renderReceiptsList();
+
+  document.getElementById('paymentStatus').addEventListener('change', function() {
+    document.getElementById('dueAmountGroup').style.display = this.value === 'partial' ? 'flex' : 'none';
+  });
+});
+
+function updateReceiptNumDisplay() {
+  const num = String(receipts.length + 1).padStart(3, '0');
+  document.getElementById('receiptNumDisplay').textContent = `REC-${num}`;
+}
+
+// TABS
+function switchTab(tab) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    if (b.textContent.toLowerCase().includes(tab === 'new' ? 'new' : tab === 'dashboard' ? 'dashboard' : 'receipt')) {
+      b.classList.add('active');
+    }
+  });
+  if (tab === 'receipts') renderReceiptsList();
+  if (tab === 'dashboard') updateDashboard();
+}
+
+// ITEMS
+function addItem() {
+  itemCount++;
+  const tbody = document.getElementById('itemsBody');
+  const tr = document.createElement('tr');
+  tr.id = `item-${itemCount}`;
+  tr.innerHTML = `
+    <td><input type="text" placeholder="Service description..." oninput="calcTotals()"></td>
+    <td><select oninput="calcTotals()">
+      <option>Application Fee</option><option>Consultation Fee</option>
+      <option>Visa Assistance</option><option>Tuition Fee</option>
+      <option>Scholarship Processing</option><option>Pre-Departure Support</option>
+      <option>Document Processing</option><option>Other</option>
+    </select></td>
+    <td><input type="number" value="1" min="1" oninput="calcTotals()"></td>
+    <td><input type="number" placeholder="0.00" min="0" step="0.01" oninput="calcTotals()"></td>
+    <td class="item-total" id="total-${itemCount}">0.00</td>
+    <td><button class="btn-remove" onclick="removeItem(${itemCount})">×</button></td>`;
+  tbody.appendChild(tr);
+}
+
+function removeItem(id) {
+  const row = document.getElementById(`item-${id}`);
+  if (row && document.querySelectorAll('#itemsBody tr').length > 1) {
+    row.remove(); calcTotals();
+  }
+}
+
+function getCurrencySymbol() {
+  const c = document.getElementById('currency').value;
+  return {USD:'$',CNY:'¥',ZWL:'Z$',EUR:'€',GBP:'£',ZAR:'R'}[c] || '$';
+}
+
+function calcTotals() {
+  let subtotal = 0;
+  document.querySelectorAll('#itemsBody tr').forEach(row => {
+    const inputs = row.querySelectorAll('input[type="number"]');
+    const qty = parseFloat(inputs[0]?.value) || 0;
+    const price = parseFloat(inputs[1]?.value) || 0;
+    const total = qty * price;
+    const totalEl = row.querySelector('.item-total');
+    if (totalEl) totalEl.textContent = total.toFixed(2);
+    subtotal += total;
+  });
+  const sym = getCurrencySymbol();
+  const discount = parseFloat(document.getElementById('discountVal').value) || 0;
+  const tax = parseFloat(document.getElementById('taxVal').value) || 0;
+  const afterDiscount = subtotal * (1 - discount / 100);
+  const grand = afterDiscount * (1 + tax / 100);
+  document.getElementById('subtotalDisplay').textContent = `${sym}${subtotal.toFixed(2)}`;
+  document.getElementById('grandTotalDisplay').textContent = `${sym}${grand.toFixed(2)}`;
+  return { subtotal, discount, tax, grand, sym };
+}
+
+function getFormData() {
+  const { subtotal, discount, tax, grand, sym } = calcTotals();
+  const items = [];
+  document.querySelectorAll('#itemsBody tr').forEach(row => {
+    const desc = row.querySelector('input[type="text"]')?.value || '';
+    const cat = row.querySelector('select')?.value || '';
+    const numInputs = row.querySelectorAll('input[type="number"]');
+    const qty = parseFloat(numInputs[0]?.value) || 0;
+    const price = parseFloat(numInputs[1]?.value) || 0;
+    if (desc || price) items.push({ desc, cat, qty, price, total: qty * price });
+  });
+  const num = String(receipts.length + 1).padStart(3, '0');
+  return {
+    receiptNum: `REC-${num}`,
+    date: document.getElementById('paymentDate').value,
+    studentName: document.getElementById('studentName').value || 'N/A',
+    studentId: document.getElementById('studentId').value,
+    studentEmail: document.getElementById('studentEmail').value,
+    studentPhone: document.getElementById('studentPhone').value,
+    studentCountry: document.getElementById('studentCountry').value,
+    studentProgram: document.getElementById('studentProgram').value,
+    studentUniversity: document.getElementById('studentUniversity').value,
+    studentIntake: document.getElementById('studentIntake').value,
+    paymentMethod: document.getElementById('paymentMethod').value,
+    transactionRef: document.getElementById('transactionRef').value,
+    currency: document.getElementById('currency').value,
+    paymentStatus: document.getElementById('paymentStatus').value,
+    balanceDue: document.getElementById('balanceDue').value,
+    notes: document.getElementById('paymentNotes').value,
+    items, subtotal, discount, tax, grand, sym
+  };
+}
+
+function buildReceiptHTML(d) {
+  const statusMap = { paid: ['Paid in Full', 'status-paid'], partial: ['Partial Payment', 'status-partial'], pending: ['Pending', 'status-pending'] };
+  const [statusLabel, statusClass] = statusMap[d.paymentStatus] || ['Pending', 'status-pending'];
+  const dateFormatted = d.date ? new Date(d.date).toLocaleDateString('en-GB', {day:'numeric',month:'long',year:'numeric'}) : 'N/A';
+  const itemRows = d.items.map(i => `
+    <tr>
+      <td>${i.desc || '—'}</td>
+      <td>${i.cat}</td>
+      <td style="text-align:center">${i.qty}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace">${d.sym}${i.price.toFixed(2)}</td>
+      <td>${d.sym}${i.total.toFixed(2)}</td>
+    </tr>`).join('');
+
+  const afterDiscount = d.subtotal * (1 - d.discount / 100);
+  const discountAmt = d.subtotal - afterDiscount;
+  const taxAmt = afterDiscount * (d.tax / 100);
+
+  return `
+  <div id="receiptDoc" style="padding:40px 48px;font-family:'DM Sans',sans-serif;">
+    <div class="receipt-header">
+      <div class="receipt-company">
+        <div class="name">Future Drive<br>Consultancy</div>
+        <div class="tag">Bridging Dreams · Building Futures in China</div>
+        <div class="contact">
+          📱 +86 186 55523744 (China)<br>
+          📱 +263 71 8017550 (Zimbabwe)<br>
+          📧 info@futuredriveconsultancy.com
+        </div>
+      </div>
+      <div class="receipt-badge-box">
+        <div class="receipt-badge-title">RECEIPT</div>
+        <div class="receipt-num-big">${d.receiptNum}</div>
+        <div class="receipt-date-big">📅 ${dateFormatted}</div>
+        <div><span class="status-badge ${statusClass}">${statusLabel}</span></div>
+      </div>
+    </div>
+
+    <div class="receipt-parties">
+      <div class="party-box">
+        <div class="party-label">Issued By</div>
+        <div class="party-name">Future Drive Consultancy</div>
+        <div class="party-detail">
+          China: +86 186 55523744<br>
+          Zimbabwe: +263 71 8017550<br>
+          info@futuredriveconsultancy.com
+        </div>
+      </div>
+      <div class="party-box">
+        <div class="party-label">Issued To (Student)</div>
+        <div class="party-name">${d.studentName}</div>
+        <div class="party-detail">
+          ${d.studentId ? `ID/Passport: ${d.studentId}<br>` : ''}
+          ${d.studentEmail ? `${d.studentEmail}<br>` : ''}
+          ${d.studentPhone ? `${d.studentPhone}<br>` : ''}
+          ${d.studentCountry ? `Country: ${d.studentCountry}<br>` : ''}
+          ${d.studentProgram ? `Program: ${d.studentProgram}<br>` : ''}
+          ${d.studentUniversity ? `University: ${d.studentUniversity}<br>` : ''}
+          ${d.studentIntake ? `Intake: ${d.studentIntake}` : ''}
+        </div>
+      </div>
+    </div>
+
+    <div class="receipt-items">
+      <table>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Category</th>
+            <th style="text-align:center">Qty</th>
+            <th style="text-align:right">Unit Price</th>
+            <th style="text-align:right">Total</th>
+          </tr>
+        </thead>
+        <tbody>${itemRows}</tbody>
+      </table>
+    </div>
+
+    <div class="receipt-totals">
+      <div class="receipt-totals-inner">
+        <div class="r-total-row">
+          <span class="r-label">Subtotal</span>
+          <span class="r-val">${d.sym}${d.subtotal.toFixed(2)}</span>
+        </div>
+        ${d.discount > 0 ? `<div class="r-total-row"><span class="r-label">Discount (${d.discount}%)</span><span class="r-val" style="color:var(--green)">-${d.sym}${discountAmt.toFixed(2)}</span></div>` : ''}
+        ${d.tax > 0 ? `<div class="r-total-row"><span class="r-label">Tax/VAT (${d.tax}%)</span><span class="r-val">${d.sym}${taxAmt.toFixed(2)}</span></div>` : ''}
+        <div class="r-total-row grand">
+          <span class="r-label">TOTAL</span>
+          <span class="r-val">${d.sym}${d.grand.toFixed(2)}</span>
+        </div>
+        ${d.paymentStatus === 'partial' && d.balanceDue ? `<div class="r-total-row" style="padding-top:10px"><span class="r-label" style="color:#92600a;font-weight:700">Balance Due</span><span class="r-val" style="color:#92600a">${d.sym}${parseFloat(d.balanceDue).toFixed(2)}</span></div>` : ''}
+      </div>
+    </div>
+
+    <div class="receipt-payment-info">
+      <h4>💳 Payment Information</h4>
+      <div class="payment-detail-row">
+        <span class="pd-label">Payment Method:</span>
+        <span class="pd-val">${d.paymentMethod}</span>
+      </div>
+      <div class="payment-detail-row">
+        <span class="pd-label">Transaction Ref:</span>
+        <span class="pd-val" style="font-family:'DM Mono',monospace">${d.transactionRef || 'N/A'}</span>
+      </div>
+      <div class="payment-detail-row">
+        <span class="pd-label">Currency:</span>
+        <span class="pd-val">${d.currency}</span>
+      </div>
+      <div class="payment-detail-row">
+        <span class="pd-label">Payment Date:</span>
+        <span class="pd-val">${dateFormatted}</span>
+      </div>
+      <div class="payment-detail-row">
+        <span class="pd-label">Status:</span>
+        <span class="pd-val"><span class="status-badge ${statusClass}">${statusLabel}</span></span>
+      </div>
+    </div>
+
+    ${d.notes ? `<div class="receipt-notes"><strong>📝 Notes:</strong> ${d.notes}</div>` : ''}
+
+    <div class="receipt-footer">
+      <div class="thank-you">Thank You for Choosing Future Drive Consultancy!</div>
+      <div class="motto">"Bridging Dreams, Building Futures in China"</div>
+      <div class="contacts">📱 +86 186 55523744 | +263 71 8017550 · 📧 info@futuredriveconsultancy.com</div>
+      <div style="margin-top:16px;font-size:11px;color:#aaa;font-family:'DM Mono',monospace">
+        Receipt generated on ${new Date().toLocaleString()} · ${d.receiptNum}
+      </div>
+    </div>
+  </div>`;
+}
+
+function previewReceipt() {
+  const d = getFormData();
+  document.getElementById('receiptModal').querySelector('.modal-box').innerHTML = `
+    <div class="modal-actions">
+      <button class="btn-print" onclick="window.print()">🖨️ Print</button>
+      <button class="btn-print" style="background:linear-gradient(135deg,var(--green),#22c55e)" onclick="downloadReceipt()">⬇️ Save PDF</button>
+      <button class="btn-close-modal" onclick="closeModal()">✕ Close</button>
+    </div>
+    ${buildReceiptHTML(d)}`;
+  document.getElementById('receiptModal').classList.add('open');
+  viewingReceipt = d;
+}
+
+function generateAndSave() {
+  const d = getFormData();
+  if (!d.studentName || d.studentName === 'N/A') {
+    alert('Please enter the student name before generating a receipt.'); return;
+  }
+  if (d.items.length === 0 || d.grand === 0) {
+    alert('Please add at least one item with a price.'); return;
+  }
+  receipts.push({ ...d, createdAt: new Date().toISOString() });
+  localStorage.setItem('fdc_receipts', JSON.stringify(receipts));
+
+  document.getElementById('receiptModal').querySelector('.modal-box').innerHTML = `
+    <div class="modal-actions">
+      <button class="btn-print" onclick="window.print()">🖨️ Print</button>
+      <button class="btn-print" style="background:linear-gradient(135deg,var(--green),#22c55e)" onclick="downloadReceipt()">⬇️ Save PDF</button>
+      <button class="btn-close-modal" onclick="closeModal()">✕ Close</button>
+    </div>
+    ${buildReceiptHTML(d)}`;
+  document.getElementById('receiptModal').classList.add('open');
+  viewingReceipt = d;
+
+  updateDashboard();
+  renderReceiptsList();
+  document.getElementById('receiptCount').textContent = receipts.length;
+  resetForm();
+}
+
+function resetForm() {
+  document.getElementById('studentName').value = '';
+  document.getElementById('studentId').value = '';
+  document.getElementById('studentEmail').value = '';
+  document.getElementById('studentPhone').value = '';
+  document.getElementById('studentCountry').value = '';
+  document.getElementById('studentUniversity').value = '';
+  document.getElementById('transactionRef').value = '';
+  document.getElementById('paymentNotes').value = '';
+  document.getElementById('discountVal').value = '';
+  document.getElementById('taxVal').value = '';
+  document.getElementById('itemsBody').innerHTML = `
+    <tr id="item-1">
+      <td><input type="text" placeholder="e.g. University Application Fee" oninput="calcTotals()"></td>
+      <td><select oninput="calcTotals()">
+        <option>Application Fee</option><option>Consultation Fee</option>
+        <option>Visa Assistance</option><option>Tuition Fee</option>
+        <option>Scholarship Processing</option><option>Pre-Departure Support</option>
+        <option>Document Processing</option><option>Other</option>
+      </select></td>
+      <td><input type="number" value="1" min="1" oninput="calcTotals()"></td>
+      <td><input type="number" placeholder="0.00" min="0" step="0.01" oninput="calcTotals()"></td>
+      <td class="item-total" id="total-1">0.00</td>
+      <td><button class="btn-remove" onclick="removeItem(1)">×</button></td>
+    </tr>`;
+  itemCount = 1;
+  updateReceiptNumDisplay();
+  calcTotals();
+}
+
+function closeModal() {
+  document.getElementById('receiptModal').classList.remove('open');
+}
+
+function viewReceiptById(idx) {
+  const d = receipts[idx];
+  viewingReceipt = d;
+  document.getElementById('receiptModal').querySelector('.modal-box').innerHTML = `
+    <div class="modal-actions">
+      <button class="btn-print" onclick="window.print()">🖨️ Print</button>
+      <button class="btn-print" style="background:linear-gradient(135deg,var(--green),#22c55e)" onclick="downloadReceipt()">⬇️ Save PDF</button>
+      <button class="btn-close-modal" onclick="closeModal()">✕ Close</button>
+    </div>
+    ${buildReceiptHTML(d)}`;
+  document.getElementById('receiptModal').classList.add('open');
+}
+
+function deleteReceipt(idx) {
+  if (confirm('Are you sure you want to delete this receipt? This cannot be undone.')) {
+    receipts.splice(idx, 1);
+    localStorage.setItem('fdc_receipts', JSON.stringify(receipts));
+    renderReceiptsList();
+    updateDashboard();
+    document.getElementById('receiptCount').textContent = receipts.length;
+  }
+}
+
+function downloadReceipt() {
+  window.print();
+}
+
+function renderReceiptsList() {
+  const query = (document.getElementById('searchInput')?.value || '').toLowerCase();
+  const container = document.getElementById('receiptsListContainer');
+  const filtered = receipts.filter((r, i) =>
+    r.studentName?.toLowerCase().includes(query) ||
+    r.receiptNum?.toLowerCase().includes(query) ||
+    r.studentProgram?.toLowerCase().includes(query)
+  );
+
+  if (filtered.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">🧾</div><p>${query ? 'No receipts match your search.' : 'No receipts yet. Create your first payment!'}</p></div>`;
+    return;
+  }
+
+  const rows = receipts.map((r, i) => {
+    if (!filtered.includes(r)) return '';
+    const statusMap = { paid: 'badge-paid', partial: 'badge-partial', pending: 'badge-pending' };
+    const statusLabels = { paid: 'Paid', partial: 'Partial', pending: 'Pending' };
+    const date = r.date ? new Date(r.date).toLocaleDateString('en-GB') : 'N/A';
+    return `<tr>
+      <td class="r-num-cell">${r.receiptNum}</td>
+      <td>
+        <div class="r-name">${r.studentName}</div>
+        <div class="r-program">${r.studentProgram || ''} ${r.studentCountry ? '· '+r.studentCountry : ''}</div>
+      </td>
+      <td>${r.studentUniversity || '—'}</td>
+      <td>${date}</td>
+      <td class="r-amount">${r.sym}${r.grand.toFixed(2)}</td>
+      <td><span class="badge ${statusMap[r.paymentStatus] || 'badge-pending'}">${statusLabels[r.paymentStatus] || 'Pending'}</span></td>
+      <td style="display:flex;gap:8px">
+        <button class="btn-view" onclick="viewReceiptById(${i})">View</button>
+        <button class="btn-view" style="color:var(--red)" onclick="deleteReceipt(${i})">Del</button>
+      </td>
+    </tr>`;
+  }).join('');
+
+  container.innerHTML = `<table class="receipts-table">
+    <thead><tr>
+      <th>Receipt #</th><th>Student</th><th>University</th><th>Date</th><th>Amount</th><th>Status</th><th>Actions</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+function updateDashboard() {
+  const total = receipts.reduce((s, r) => s + (r.grand || 0), 0);
+  const paid = receipts.filter(r => r.paymentStatus === 'paid');
+  const pending = receipts.filter(r => r.paymentStatus === 'pending');
+  const sym = receipts[0]?.sym || '$';
+  document.getElementById('statTotal').textContent = `${sym}${total.toFixed(2)}`;
+  document.getElementById('statTotalCount').textContent = `${receipts.length} payments`;
+  document.getElementById('statPaid').textContent = `${sym}${paid.reduce((s,r)=>s+(r.grand||0),0).toFixed(2)}`;
+  document.getElementById('statPaidCount').textContent = `${paid.length} receipts`;
+  document.getElementById('statPending').textContent = `${sym}${pending.reduce((s,r)=>s+(r.grand||0),0).toFixed(2)}`;
+  document.getElementById('statPendingCount').textContent = `${pending.length} receipts`;
+  document.getElementById('statStudents').textContent = receipts.length;
+  document.getElementById('receiptCount').textContent = receipts.length;
+
+  const recentContainer = document.getElementById('dashRecentTable');
+  if (receipts.length === 0) {
+    recentContainer.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div><p>No receipts yet. Create your first payment above!</p></div>`;
+    return;
+  }
+  const recent = [...receipts].reverse().slice(0, 5);
+  const statusMap = { paid: 'badge-paid', partial: 'badge-partial', pending: 'badge-pending' };
+  const statusLabels = { paid: 'Paid', partial: 'Partial', pending: 'Pending' };
+  const rows = recent.map((r, i) => {
+    const realIdx = receipts.length - 1 - i;
+    const date = r.date ? new Date(r.date).toLocaleDateString('en-GB') : 'N/A';
+    return `<tr>
+      <td class="r-num-cell">${r.receiptNum}</td>
+      <td><div class="r-name">${r.studentName}</div><div class="r-program">${r.studentProgram || ''}</div></td>
+      <td>${date}</td>
+      <td class="r-amount">${r.sym}${r.grand.toFixed(2)}</td>
+      <td><span class="badge ${statusMap[r.paymentStatus] || 'badge-pending'}">${statusLabels[r.paymentStatus] || 'Pending'}</span></td>
+      <td><button class="btn-view" onclick="viewReceiptById(${realIdx})">View</button></td>
+    </tr>`;
+  }).join('');
+  recentContainer.innerHTML = `<table class="receipts-table">
+    <thead><tr><th>Receipt #</th><th>Student</th><th>Date</th><th>Amount</th><th>Status</th><th></th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+// Close modal on overlay click
+document.getElementById('receiptModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+</script>
+</body>
+</html>
