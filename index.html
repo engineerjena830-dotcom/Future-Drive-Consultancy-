@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Future Drive Consultancy — Bridging Dreams, Building Futures in China</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #C0392B;
+    --red-dark: #962d22;
+    --red-light: #e84040;
+    --gold: #F1C40F;
+    --gold-dark: #d4a800;
+    --navy: #1A2980;
+    --navy-dark: #0f1a5a;
+    --navy-light: #26348a;
+    --white: #FFFFFF;
+    --light: #F9F9F9;
+    --gray: #6c757d;
+    --dark: #0d0d1a;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: #111; overflow-x: hidden; }
+
+  /* TICKER */
+  .ticker-wrap {
+    background: linear-gradient(90deg, var(--navy-dark), var(--navy));
+    color: var(--gold);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
+  .ticker-inner {
+    display: inline-flex;
+    animation: ticker 30s linear infinite;
+  }
+  .ticker-inner span { padding: 0 60px; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid rgba(192,57,43,0.12);
+    transition: box-shadow 0.3s;
+    padding: 0 5%;
+  }
+  nav.scrolled { box-shadow: 0 4px 30px rgba(26,41,128,0.15); }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+    gap: 20px;
+  }
+  .logo-wrap { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
+  .logo-svg { width: 52px; height: 52px; }
+  .logo-text { display: flex; flex-direction: column; }
+  .logo-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 900; color: var(--navy); line-height: 1.1; }
+  .logo-tag { font-size: 9.5px; color: var(--red); font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; }
+  .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+  .nav-links a { text-decoration: none; color: #333; font-size: 13.5px; font-weight: 500; padding: 6px 10px; border-radius: 6px; transition: all 0.2s; }
+  .nav-links a:hover { color: var(--red); background: rgba(192,57,43,0.06); }
+  .btn-apply-nav {
+    background: linear-gradient(135deg, var(--red), #e84040);
+    color: white !important;
+    padding: 9px 22px !important;
+    border-radius: 50px !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    box-shadow: 0 4px 15px rgba(192,57,43,0.4);
+    transition: transform 0.2s, box-shadow 0.2s !important;
+  }
+  .btn-apply-nav:hover { transform: translateY(-2px) !important; box-shadow: 0 8px 20px rgba(192,57,43,0.5) !important; background: rgba(192,57,43,0.06) !important; }
+  .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--navy); border-radius: 2px; transition: all 0.3s; }
+  .mobile-menu { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26,41,128,0.97); z-index: 2000; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { color: white; font-size: 22px; font-family: 'Playfair Display', serif; text-decoration: none; transition: color 0.2s; }
+  .mobile-menu a:hover { color: var(--gold); }
+  .close-menu { position: absolute; top: 24px; right: 28px; color: white; font-size: 32px; cursor: pointer; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 40%, #2c1760 70%, #1a0a2e 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 80px 5%;
+  }
+  .hero-bg-pattern {
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(192,57,43,0.25) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(241,196,15,0.15) 0%, transparent 50%),
+      radial-gradient(circle at 60% 80%, rgba(26,41,128,0.4) 0%, transparent 50%);
+  }
+  .floating-shapes { position: absolute; inset: 0; overflow: hidden; }
+  .shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.07;
+    animation: float 8s ease-in-out infinite;
+  }
+  .shape:nth-child(1) { width: 300px; height: 300px; background: var(--gold); top: -50px; right: 10%; animation-delay: 0s; }
+  .shape:nth-child(2) { width: 200px; height: 200px; background: var(--red); bottom: 10%; left: 5%; animation-delay: 2s; }
+  .shape:nth-child(3) { width: 150px; height: 150px; background: white; top: 40%; left: 50%; animation-delay: 4s; }
+  .shape:nth-child(4) { width: 80px; height: 80px; background: var(--gold); top: 20%; left: 20%; animation-delay: 1s; }
+  @keyframes float { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-30px) rotate(5deg); } }
+  .hero-grid-lines {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 780px; text-align: center; }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(241,196,15,0.15);
+    border: 1px solid rgba(241,196,15,0.4);
+    color: var(--gold);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 28px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    animation: fadeInDown 0.8s ease both;
+  }
+  .hero-badge::before { content: '★'; }
+  .hero-h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(38px, 6vw, 72px);
+    font-weight: 900;
+    color: white;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    animation: fadeInUp 0.8s 0.2s ease both;
+  }
+  .hero-h1 em { font-style: italic; color: var(--gold); }
+  .hero-sub {
+    font-size: clamp(15px, 2vw, 19px);
+    color: rgba(255,255,255,0.75);
+    line-height: 1.7;
+    max-width: 600px;
+    margin: 0 auto 36px;
+    animation: fadeInUp 0.8s 0.4s ease both;
+  }
+  .hero-btns {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeInUp 0.8s 0.6s ease both;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--red), #e84040);
+    color: white;
+    padding: 16px 36px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 8px 30px rgba(192,57,43,0.5);
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(192,57,43,0.6); }
+  .btn-outline {
+    border: 2px solid rgba(241,196,15,0.8);
+    color: var(--gold);
+    padding: 14px 34px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-block;
+    background: transparent;
+    cursor: pointer;
+  }
+  .btn-outline:hover { background: var(--gold); color: var(--navy-dark); transform: translateY(-3px); }
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 64px;
+    flex-wrap: wrap;
+    animation: fadeInUp 0.8s 0.8s ease both;
+  }
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 900;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+  }
+  .stat-label { font-size: 12px; color: rgba(255,255,255,0.6); font-weight: 500; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.8px; }
+  .stat-divider { width: 1px; background: rgba(255,255,255,0.15); align-self: stretch; }
+
+  /* SHARED */
+  section { padding: 90px 5%; }
+  .section-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--red);
+    background: rgba(192,57,43,0.08);
+    padding: 5px 14px;
+    border-radius: 50px;
+    margin-bottom: 14px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 46px);
+    font-weight: 900;
+    color: var(--navy-dark);
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .section-sub { font-size: 16px; color: var(--gray); max-width: 580px; line-height: 1.7; }
+  .section-header { text-align: center; margin-bottom: 56px; }
+  .section-header .section-sub { margin: 0 auto; }
+
+  /* ABOUT */
+  .about-section { background: var(--light); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; max-width: 1100px; margin: 0 auto; }
+  .about-visual {
+    position: relative;
+    height: 420px;
+    border-radius: 24px;
+    overflow: hidden;
+  }
+  .about-bg {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 50%, #2c1760 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .about-icon-big {
+    font-size: 100px;
+    filter: drop-shadow(0 0 30px rgba(241,196,15,0.5));
+  }
+  .about-badge-float {
+    position: absolute;
+    bottom: 24px; left: 24px;
+    background: white;
+    border-radius: 16px;
+    padding: 14px 20px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .about-badge-float .dot { width: 10px; height: 10px; background: #22c55e; border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.4); } }
+  .about-content { }
+  .about-content .section-title { text-align: left; }
+  .about-content .section-tag { }
+  .about-text { font-size: 15.5px; color: #444; line-height: 1.8; margin-bottom: 24px; }
+  .about-features { display: flex; flex-direction: column; gap: 14px; margin-bottom: 30px; }
+  .about-feature { display: flex; align-items: center; gap: 12px; font-size: 14.5px; font-weight: 500; color: #333; }
+  .about-feature::before { content: '✓'; width: 24px; height: 24px; background: var(--red); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+
+  /* PROGRAMS */
+  .programs-section { background: white; }
+  .programs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; }
+  .program-card {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1.5px solid rgba(26,41,128,0.1);
+    transition: all 0.3s;
+    background: white;
+    cursor: pointer;
+    position: relative;
+  }
+  .program-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(26,41,128,0.15); border-color: var(--red); }
+  .program-card-top {
+    padding: 32px 28px 24px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .program-card-top::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; right: -20px;
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  .program-icon { font-size: 40px; margin-bottom: 12px; display: block; position: relative; z-index: 1; }
+  .program-name { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; color: white; position: relative; z-index: 1; }
+  .program-card-body { padding: 20px 28px 28px; }
+  .program-desc { font-size: 14px; color: #555; line-height: 1.7; margin-bottom: 20px; }
+  .program-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--red);
+    font-size: 13.5px;
+    font-weight: 700;
+    text-decoration: none;
+    border: 1.5px solid var(--red);
+    padding: 8px 18px;
+    border-radius: 50px;
+    transition: all 0.2s;
+  }
+  .program-link:hover { background: var(--red); color: white; }
+  .program-card:nth-child(2) .program-card-top { background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%); }
+  .program-card:nth-child(3) .program-card-top { background: linear-gradient(135deg, #7b2d8b 0%, #4a1060 100%); }
+  .program-card:nth-child(4) .program-card-top { background: linear-gradient(135deg, #1a6980 0%, #0f3a47 100%); }
+  .program-card:nth-child(5) .program-card-top { background: linear-gradient(135deg, #2d7a22 0%, #1a4d12 100%); }
+  .program-card:nth-child(6) .program-card-top { background: linear-gradient(135deg, #8b6914 0%, #5a440d 100%); }
+
+  /* UNIVERSITIES */
+  .universities-section { background: var(--navy-dark); padding: 80px 0; overflow: hidden; }
+  .universities-section .section-tag { color: var(--gold); background: rgba(241,196,15,0.15); }
+  .universities-section .section-title { color: white; }
+  .universities-section .section-header { padding: 0 5%; }
+  .uni-track-wrap { overflow: hidden; position: relative; }
+  .uni-track-wrap::before, .uni-track-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .uni-track-wrap::before { left: 0; background: linear-gradient(to right, var(--navy-dark), transparent); }
+  .uni-track-wrap::after { right: 0; background: linear-gradient(to left, var(--navy-dark), transparent); }
+  .uni-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    animation: scrollTrack 25s linear infinite;
+    padding: 10px 0;
+  }
+  .uni-track:hover { animation-play-state: paused; }
+  @keyframes scrollTrack { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .uni-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 24px 28px;
+    min-width: 220px;
+    flex-shrink: 0;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .uni-card:hover { background: rgba(241,196,15,0.1); border-color: var(--gold); transform: translateY(-4px); }
+  .uni-flag { font-size: 28px; margin-bottom: 10px; }
+  .uni-name { font-family: 'Playfair Display', serif; font-size: 14px; color: white; font-weight: 700; line-height: 1.3; margin-bottom: 4px; }
+  .uni-city { font-size: 12px; color: rgba(255,255,255,0.5); }
+
+  /* SCHOLARSHIPS */
+  .scholarships-section { background: var(--light); }
+  .scholarships-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; max-width: 960px; margin: 0 auto; }
+  .schol-card {
+    background: white;
+    border-radius: 20px;
+    padding: 32px;
+    border: 1.5px solid rgba(26,41,128,0.08);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .schol-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
+  .schol-ribbon {
+    position: absolute;
+    top: 20px; right: -28px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--navy-dark);
+    font-size: 10px;
+    font-weight: 800;
+    padding: 5px 36px;
+    transform: rotate(45deg);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .schol-icon { font-size: 36px; margin-bottom: 14px; }
+  .schol-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--navy-dark); margin-bottom: 10px; }
+  .schol-desc { font-size: 14px; color: #555; line-height: 1.7; margin-bottom: 18px; }
+  .schol-covers { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .schol-tag { background: rgba(26,41,128,0.07); color: var(--navy); font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 50px; }
+  .btn-schol {
+    background: linear-gradient(135deg, var(--navy), var(--navy-light));
+    color: white;
+    padding: 11px 22px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    transition: all 0.2s;
+  }
+  .btn-schol:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(26,41,128,0.4); }
+
+  /* HOW TO APPLY */
+  .apply-section { background: white; }
+  .steps-row {
+    display: flex;
+    gap: 0;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .steps-row::before {
+    content: '';
+    position: absolute;
+    top: 36px;
+    left: 10%;
+    right: 10%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--red), var(--gold), var(--red));
+    z-index: 0;
+  }
+  .step-item { flex: 1; text-align: center; position: relative; z-index: 1; padding: 0 10px; }
+  .step-num {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--red), #e84040);
+    color: white;
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    box-shadow: 0 8px 20px rgba(192,57,43,0.4);
+    transition: all 0.3s;
+  }
+  .step-item:hover .step-num { transform: scale(1.1); box-shadow: 0 12px 30px rgba(192,57,43,0.5); }
+  .step-icon { font-size: 24px; margin-bottom: 10px; }
+  .step-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--navy-dark); margin-bottom: 8px; }
+  .step-desc { font-size: 13px; color: var(--gray); line-height: 1.6; }
+  .step-item:nth-child(2) .step-num { background: linear-gradient(135deg, #7b2d8b, #4a1060); box-shadow: 0 8px 20px rgba(123,45,139,0.4); }
+  .step-item:nth-child(3) .step-num { background: linear-gradient(135deg, var(--navy), var(--navy-light)); box-shadow: 0 8px 20px rgba(26,41,128,0.4); }
+  .step-item:nth-child(4) .step-num { background: linear-gradient(135deg, #2d7a22, #1a4d12); box-shadow: 0 8px 20px rgba(45,122,34,0.4); }
+  .step-item:nth-child(5) .step-num { background: linear-gradient(135deg, var(--gold-dark), #b8860b); box-shadow: 0 8px 20px rgba(212,168,0,0.4); }
+
+  /* WHY CHOOSE US */
+  .why-section { background: linear-gradient(135deg, var(--navy-dark) 0%, #0d1540 100%); }
+  .why-section .section-tag { color: var(--gold); background: rgba(241,196,15,0.15); }
+  .why-section .section-title { color: white; }
+  .why-section .section-sub { color: rgba(255,255,255,0.6); }
+  .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1000px; margin: 0 auto; }
+  .why-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 18px;
+    padding: 28px;
+    transition: all 0.3s;
+  }
+  .why-card:hover { background: rgba(241,196,15,0.08); border-color: rgba(241,196,15,0.3); transform: translateY(-4px); }
+  .why-icon { font-size: 36px; margin-bottom: 16px; }
+  .why-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: white; margin-bottom: 10px; }
+  .why-desc { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.7; }
+
+  /* TESTIMONIALS */
+  .testimonials-section { background: var(--light); }
+  .testi-carousel { max-width: 800px; margin: 0 auto; position: relative; }
+  .testi-slides { overflow: hidden; border-radius: 20px; }
+  .testi-slide { display: none; background: white; border-radius: 20px; padding: 40px; box-shadow: 0 8px 40px rgba(0,0,0,0.08); border: 1.5px solid rgba(26,41,128,0.08); }
+  .testi-slide.active { display: block; animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .testi-stars { color: var(--gold); font-size: 20px; margin-bottom: 16px; }
+  .testi-quote { font-size: 16px; color: #333; line-height: 1.8; font-style: italic; margin-bottom: 28px; position: relative; padding-left: 20px; }
+  .testi-quote::before { content: '"'; position: absolute; left: 0; top: -6px; font-size: 48px; color: var(--red); opacity: 0.3; font-family: 'Playfair Display', serif; line-height: 1; }
+  .testi-author { display: flex; align-items: center; gap: 16px; }
+  .testi-avatar {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+  }
+  .testi-info .name { font-weight: 700; color: var(--navy-dark); font-size: 15px; }
+  .testi-info .detail { font-size: 13px; color: var(--gray); margin-top: 2px; }
+  .testi-dots { display: flex; justify-content: center; gap: 10px; margin-top: 28px; }
+  .testi-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(26,41,128,0.2); cursor: pointer; transition: all 0.3s; border: none; }
+  .testi-dot.active { background: var(--red); width: 28px; border-radius: 5px; }
+  .testi-arrows { display: flex; justify-content: center; gap: 12px; margin-top: 16px; }
+  .testi-arrow { width: 44px; height: 44px; border-radius: 50%; border: 2px solid rgba(26,41,128,0.2); background: white; cursor: pointer; font-size: 16px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+  .testi-arrow:hover { background: var(--red); border-color: var(--red); color: white; }
+
+  /* CONTACT */
+  .contact-section {
+    background: white;
+    padding: 90px 5%;
+  }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; max-width: 1060px; margin: 0 auto; align-items: start; }
+  .contact-info-side { }
+  .contact-info-side .section-title { font-size: 32px; }
+  .contact-info-side .section-sub { margin-bottom: 32px; }
+  .contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 22px;
+    padding: 18px;
+    background: var(--light);
+    border-radius: 14px;
+    border: 1.5px solid rgba(26,41,128,0.06);
+    transition: all 0.2s;
+  }
+  .contact-item:hover { border-color: rgba(192,57,43,0.2); background: rgba(192,57,43,0.03); }
+  .contact-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+  .contact-detail strong { display: block; font-size: 13px; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+  .contact-detail a { color: var(--navy-dark); font-size: 15px; font-weight: 600; text-decoration: none; }
+  .contact-detail a:hover { color: var(--red); }
+  .wa-buttons { display: flex; flex-direction: column; gap: 12px; margin-top: 28px; }
+  .wa-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #25D366;
+    color: white;
+    padding: 13px 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+  .wa-btn:hover { background: #1da851; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37,211,102,0.4); }
+  .wa-btn-icon { font-size: 20px; }
+  .contact-form-side {
+    background: var(--light);
+    border-radius: 24px;
+    padding: 36px;
+    border: 1.5px solid rgba(26,41,128,0.08);
+  }
+  .form-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--navy-dark); margin-bottom: 24px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { margin-bottom: 18px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 700; color: #444; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid rgba(26,41,128,0.12);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: #333;
+    background: white;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(192,57,43,0.1); }
+  .form-group textarea { resize: vertical; min-height: 90px; }
+  .btn-submit {
+    width: 100%;
+    background: linear-gradient(135deg, var(--red), #e84040);
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 6px 20px rgba(192,57,43,0.4);
+  }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(192,57,43,0.5); }
+  .form-success {
+    display: none;
+    text-align: center;
+    padding: 30px;
+    background: rgba(34,197,94,0.08);
+    border: 1.5px solid rgba(34,197,94,0.3);
+    border-radius: 16px;
+    margin-top: 16px;
+  }
+  .form-success.show { display: block; animation: fadeIn 0.4s ease; }
+  .form-success-icon { font-size: 48px; margin-bottom: 12px; }
+  .form-success h3 { color: #16a34a; font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 8px; }
+  .form-success p { color: #555; font-size: 14px; }
+
+  /* BLOG */
+  .blog-section { background: var(--light); }
+  .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 1060px; margin: 0 auto; }
+  .blog-card {
+    background: white;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1.5px solid rgba(26,41,128,0.06);
+    transition: all 0.3s;
+  }
+  .blog-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
+  .blog-header {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    position: relative;
+  }
+  .blog-card:nth-child(1) .blog-header { background: linear-gradient(135deg, var(--navy), var(--navy-light)); }
+  .blog-card:nth-child(2) .blog-header { background: linear-gradient(135deg, var(--red-dark), var(--red)); }
+  .blog-card:nth-child(3) .blog-header { background: linear-gradient(135deg, #7b2d8b, #4a1060); }
+  .blog-meta { padding: 24px; }
+  .blog-date { font-size: 12px; color: var(--red); font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+  .blog-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--navy-dark); line-height: 1.4; margin-bottom: 12px; }
+  .blog-excerpt { font-size: 13.5px; color: #555; line-height: 1.7; margin-bottom: 18px; }
+  .blog-link { color: var(--red); font-size: 13px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+  .blog-link:hover { gap: 8px; }
+
+  /* FOOTER */
+  footer {
+    background: linear-gradient(135deg, var(--navy-dark) 0%, #0d0d1a 100%);
+    color: rgba(255,255,255,0.7);
+    padding: 72px 5% 0;
+  }
+  .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 48px; padding-bottom: 56px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .footer-brand .logo-name { color: white; font-size: 20px; }
+  .footer-brand .logo-tag { color: var(--gold); }
+  .footer-tagline { font-style: italic; font-size: 13.5px; color: rgba(255,255,255,0.5); margin-top: 14px; margin-bottom: 20px; }
+  .social-row { display: flex; gap: 10px; }
+  .social-btn {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .social-btn:hover { background: var(--red); border-color: var(--red); transform: translateY(-3px); }
+  .footer-col h4 { color: white; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 20px; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-links a { color: rgba(255,255,255,0.55); font-size: 14px; text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-contact-item { display: flex; gap: 10px; margin-bottom: 14px; font-size: 14px; }
+  .footer-contact-item a { color: rgba(255,255,255,0.7); text-decoration: none; }
+  .footer-contact-item a:hover { color: var(--gold); }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    font-size: 13px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .footer-motto { color: var(--gold); font-style: italic; font-family: 'DM Serif Display', serif; }
+
+  /* FLOATING ELEMENTS */
+  .wa-float {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: #25D366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    text-decoration: none;
+    z-index: 999;
+    box-shadow: 0 8px 30px rgba(37,211,102,0.5);
+    animation: bounceWA 3s ease-in-out infinite;
+    transition: transform 0.2s;
+  }
+  .wa-float:hover { transform: scale(1.12); }
+  @keyframes bounceWA { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .back-top {
+    position: fixed;
+    bottom: 98px; right: 28px;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    box-shadow: 0 4px 15px rgba(26,41,128,0.4);
+    transition: all 0.2s;
+  }
+  .back-top.show { display: flex; }
+  .back-top:hover { background: var(--red); transform: translateY(-3px); }
+
+  /* ANIMATIONS */
+  .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.7s, transform 0.7s; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+  @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .about-grid { grid-template-columns: 1fr; }
+    .about-visual { height: 250px; }
+    .programs-grid { grid-template-columns: 1fr 1fr; }
+    .scholarships-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .why-grid { grid-template-columns: 1fr 1fr; }
+    .blog-grid { grid-template-columns: 1fr 1fr; }
+    .steps-row { flex-direction: column; gap: 28px; }
+    .steps-row::before { display: none; }
+  }
+  @media (max-width: 600px) {
+    .programs-grid { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    .blog-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .stat-divider { display: none; }
+    nav { padding: 0 4%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span>🎓 2025/2026 Admissions Now Open — March &amp; September Intake | Apply Today!</span>
+    <span>🏛️ 500+ Partner Universities Across China | Scholarship Assistance Available</span>
+    <span>📱 WhatsApp: +86 186 55523744 | +263 71 8017550</span>
+    <span>🌍 Helping Students from Africa &amp; Beyond Build Their Future in China</span>
+    <span>🎓 2025/2026 Admissions Now Open — March &amp; September Intake | Apply Today!</span>
+    <span>🏛️ 500+ Partner Universities Across China | Scholarship Assistance Available</span>
+    <span>📱 WhatsApp: +86 186 55523744 | +263 71 8017550</span>
+    <span>🌍 Helping Students from Africa &amp; Beyond Build Their Future in China</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="logo-wrap">
+      <svg class="logo-svg" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="26" cy="26" r="26" fill="#1A2980"/>
+        <!-- Road -->
+        <path d="M14 38 L26 18 L38 38" stroke="#F1C40F" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M18 38 L26 24 L34 38" fill="rgba(241,196,15,0.15)"/>
+        <!-- Graduation cap -->
+        <rect x="18" y="10" width="16" height="3" rx="1.5" fill="#C0392B"/>
+        <polygon points="26,5 18,10 34,10" fill="#C0392B"/>
+        <path d="M32 10 L32 16 Q32 18 30 18 Q28 18 28 16" stroke="#C0392B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <!-- Star shine -->
+        <circle cx="26" cy="11.5" r="2" fill="#F1C40F"/>
+      </svg>
+      <div class="logo-text">
+        <span class="logo-name">Future Drive</span>
+        <span class="logo-name" style="color:var(--red)">Consultancy</span>
+        <span class="logo-tag">Bridging Dreams · Building Futures</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About Us</a></li>
+      <li><a href="#programs">Programs</a></li>
+      <li><a href="#scholarships">Scholarships</a></li>
+      <li><a href="#universities">Universities</a></li>
+      <li><a href="#how-to-apply">Apply</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#contact" class="btn-apply-nav">Apply Now</a></li>
+    </ul>
+    <div class="hamburger" onclick="openMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <span class="close-menu" onclick="closeMenu()">✕</span>
+  <a href="#home" onclick="closeMenu()">Home</a>
+  <a href="#about" onclick="closeMenu()">About Us</a>
+  <a href="#programs" onclick="closeMenu()">Programs</a>
+  <a href="#scholarships" onclick="closeMenu()">Scholarships</a>
+  <a href="#universities" onclick="closeMenu()">Universities</a>
+  <a href="#how-to-apply" onclick="closeMenu()">How to Apply</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+  <a href="#contact" onclick="closeMenu()" style="color:var(--gold)">✦ Apply Now</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="floating-shapes">
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">🏛️ Trusted Education Consultancy · Est. 2020</div>
+    <h1 class="hero-h1">Your Journey to<br><em>Study in China</em><br>Starts Here</h1>
+    <p class="hero-sub">Bridging Dreams, Building Futures in China — Let Future Drive Consultancy guide you every step of the way, from application to arrival.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">🎓 Apply Now</a>
+      <a href="#programs" class="btn-outline">Explore Programs →</a>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item">
+        <span class="stat-num" data-target="500">0</span>
+        <div class="stat-label">🏛️ Partner Universities</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-num" data-target="1000">0</span>
+        <div class="stat-label">📚 Available Courses</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-num" data-target="20">0</span>
+        <div class="stat-label">🌍 Countries Served</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-num" data-target="5000">0</span>
+        <div class="stat-label">🎓 Students Placed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section fade-up" id="about">
+  <div class="about-grid">
+    <div class="about-visual">
+      <div class="about-bg">
+        <span class="about-icon-big">🎓</span>
+      </div>
+      <div class="about-badge-float">
+        <span class="dot"></span>
+        Accepting Applications Now
+      </div>
+    </div>
+    <div class="about-content">
+      <span class="section-tag">About Us</span>
+      <h2 class="section-title">We Open Doors to<br>China's Best Universities</h2>
+      <p class="about-text">Future Drive Consultancy is a dedicated education consultancy helping students from Africa and around the world gain access to China's world-class universities. We handle everything — from choosing the right university and program, to completing your visa application and settling in.</p>
+      <p class="about-text">With direct partnerships across 500+ universities and deep expertise in Chinese university admissions, we've helped thousands of students turn their dreams into reality.</p>
+      <div class="about-features">
+        <div class="about-feature">100% Legitimate University Admissions Process</div>
+        <div class="about-feature">Scholarship Application Assistance</div>
+        <div class="about-feature">End-to-End Visa & Pre-Departure Support</div>
+        <div class="about-feature">Dedicated Advisor for Each Student</div>
+        <div class="about-feature">24/7 WhatsApp Support in Multiple Languages</div>
+      </div>
+      <a href="#contact" class="btn-primary" style="font-size:14px;padding:13px 28px;">Get a Free Consultation</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section class="programs-section fade-up" id="programs">
+  <div class="section-header">
+    <span class="section-tag">What We Offer</span>
+    <h2 class="section-title">Programs We Offer</h2>
+    <p class="section-sub">From medicine to engineering, language studies to doctoral research — find your perfect program in China.</p>
+  </div>
+  <div class="programs-grid">
+    <div class="program-card">
+      <div class="program-card-top">
+        <span class="program-icon">🏥</span>
+        <div class="program-name">MBBS / Medical Programs</div>
+      </div>
+      <div class="program-card-body">
+        <p class="program-desc">Study medicine at MOE-approved medical universities in China. Programs taught in English with globally recognized degrees. Intake: March & September.</p>
+        <a href="#contact" class="program-link">Learn More →</a>
+      </div>
+    </div>
+    <div class="program-card">
+      <div class="program-card-top">
+        <span class="program-icon">🎓</span>
+        <div class="program-name">Bachelor's Degree</div>
+      </div>
+      <div class="program-card-body">
+        <p class="program-desc">4-year undergraduate programs across engineering, business, arts, science, IT, agriculture and more. Both English and Chinese-taught options available.</p>
+        <a href="#contact" class="program-link">Learn More →</a>
+      </div>
+    </div>
+    <div class="program-card">
+      <div class="program-card-top">
+        <span class="program-icon">📖</span>
+        <div class="program-name">Master's Degree</div>
+      </div>
+      <div class="program-card-body">
+        <p class="program-desc">Advance your career with a prestigious Master's degree from top Chinese universities. Duration 2-3 years, with strong research and scholarship opportunities.</p>
+        <a href="#contact" class="program-link">Learn More →</a>
+      </div>
+    </div>
+    <div class="program-card">
+      <div class="program-card-top">
+        <span class="program-icon">🔬</span>
+        <div class="program-name">PhD / Doctoral Programs</div>
+      </div>
+      <div class="program-card-body">
+        <p class="program-desc">World-class doctoral research programs with access to state-of-the-art labs and internationally renowned academic supervisors in China's top-ranked universities.</p>
+        <a href="#contact" class="program-link">Learn More →</a>
+      </div>
+    </div>
+    <div class="program-card">
+      <div class="program-card-top">
+        <span class="program-icon">📜</span>
+        <div class="program-name">Diploma Programs</div>
+      </div>
+      <div class="program-card-body">
+        <p class="program-desc">Short-term diploma and certificate programs in engineering, business, technology, and more. Ideal for career advancement or as a pathway to a full degree.</p>
+        <a href="#contact" class="program-link">Learn More →</a>
+      </div>
+    </div>
+    <div class="program-card">
+      <div class="program-card-top">
+        <span class="program-icon">🀄</span>
+        <div class="program-name">Chinese Language & Culture</div>
+      </div>
+      <div class="program-card-body">
+        <p class="program-desc">Learn Mandarin Chinese from beginner to advanced, immersed in China's rich 5,000-year culture. A great foundation before starting your degree program.</p>
+        <a href="#contact" class="program-link">Learn More →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UNIVERSITIES -->
+<section class="universities-section fade-up" id="universities">
+  <div class="section-header">
+    <span class="section-tag">Our Partners</span>
+    <h2 class="section-title">Top Partner Universities in China</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,0.55)">We work directly with 500+ universities — from elite C9 League institutions to specialized technical colleges.</p>
+  </div>
+  <div class="uni-track-wrap" style="padding:0 5%">
+    <div class="uni-track" id="uniTrack">
+      <div class="uni-card"><div class="uni-flag">🏛️</div><div class="uni-name">Peking University</div><div class="uni-city">Beijing</div></div>
+      <div class="uni-card"><div class="uni-flag">⚙️</div><div class="uni-name">Tsinghua University</div><div class="uni-city">Beijing</div></div>
+      <div class="uni-card"><div class="uni-flag">🔭</div><div class="uni-name">Fudan University</div><div class="uni-city">Shanghai</div></div>
+      <div class="uni-card"><div class="uni-flag">🌿</div><div class="uni-name">Zhejiang University</div><div class="uni-city">Hangzhou</div></div>
+      <div class="uni-card"><div class="uni-flag">🚀</div><div class="uni-name">Shanghai Jiao Tong Univ.</div><div class="uni-city">Shanghai</div></div>
+      <div class="uni-card"><div class="uni-flag">🏥</div><div class="uni-name">Wuhan University</div><div class="uni-city">Wuhan</div></div>
+      <div class="uni-card"><div class="uni-flag">🌊</div><div class="uni-name">Sun Yat-sen University</div><div class="uni-city">Guangzhou</div></div>
+      <div class="uni-card"><div class="uni-flag">📡</div><div class="uni-name">Huazhong Univ. of S&T</div><div class="uni-city">Wuhan</div></div>
+      <div class="uni-card"><div class="uni-flag">🔬</div><div class="uni-name">Nanjing University</div><div class="uni-city">Nanjing</div></div>
+      <div class="uni-card"><div class="uni-flag">🎭</div><div class="uni-name">Beijing Normal Univ.</div><div class="uni-city">Beijing</div></div>
+      <div class="uni-card"><div class="uni-flag">🌏</div><div class="uni-name">Tongji University</div><div class="uni-city">Shanghai</div></div>
+      <div class="uni-card"><div class="uni-flag">⚗️</div><div class="uni-name">Shandong University</div><div class="uni-city">Jinan</div></div>
+      <!-- duplicated for infinite scroll -->
+      <div class="uni-card"><div class="uni-flag">🏛️</div><div class="uni-name">Peking University</div><div class="uni-city">Beijing</div></div>
+      <div class="uni-card"><div class="uni-flag">⚙️</div><div class="uni-name">Tsinghua University</div><div class="uni-city">Beijing</div></div>
+      <div class="uni-card"><div class="uni-flag">🔭</div><div class="uni-name">Fudan University</div><div class="uni-city">Shanghai</div></div>
+      <div class="uni-card"><div class="uni-flag">🌿</div><div class="uni-name">Zhejiang University</div><div class="uni-city">Hangzhou</div></div>
+      <div class="uni-card"><div class="uni-flag">🚀</div><div class="uni-name">Shanghai Jiao Tong Univ.</div><div class="uni-city">Shanghai</div></div>
+      <div class="uni-card"><div class="uni-flag">🏥</div><div class="uni-name">Wuhan University</div><div class="uni-city">Wuhan</div></div>
+      <div class="uni-card"><div class="uni-flag">🌊</div><div class="uni-name">Sun Yat-sen University</div><div class="uni-city">Guangzhou</div></div>
+      <div class="uni-card"><div class="uni-flag">📡</div><div class="uni-name">Huazhong Univ. of S&T</div><div class="uni-city">Wuhan</div></div>
+      <div class="uni-card"><div class="uni-flag">🔬</div><div class="uni-name">Nanjing University</div><div class="uni-city">Nanjing</div></div>
+      <div class="uni-card"><div class="uni-flag">🎭</div><div class="uni-name">Beijing Normal Univ.</div><div class="uni-city">Beijing</div></div>
+      <div class="uni-card"><div class="uni-flag">🌏</div><div class="uni-name">Tongji University</div><div class="uni-city">Shanghai</div></div>
+      <div class="uni-card"><div class="uni-flag">⚗️</div><div class="uni-name">Shandong University</div><div class="uni-city">Jinan</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHOLARSHIPS -->
+<section class="scholarships-section fade-up" id="scholarships">
+  <div class="section-header">
+    <span class="section-tag">Financial Aid</span>
+    <h2 class="section-title">Scholarship Opportunities</h2>
+    <p class="section-sub">China offers some of the world's most generous scholarships for international students. We help you identify and apply for the right ones.</p>
+  </div>
+  <div class="scholarships-grid">
+    <div class="schol-card">
+      <div class="schol-ribbon">Fully Funded</div>
+      <div class="schol-icon">🏛️</div>
+      <div class="schol-name">Chinese Government Scholarship (CSC)</div>
+      <p class="schol-desc">The most prestigious scholarship for international students to China, funded by the Ministry of Education. Covers full tuition, accommodation, stipend, and medical insurance.</p>
+      <div class="schol-covers">
+        <span class="schol-tag">Tuition Covered</span>
+        <span class="schol-tag">Accommodation</span>
+        <span class="schol-tag">Monthly Stipend</span>
+        <span class="schol-tag">Medical Insurance</span>
+      </div>
+      <a href="#contact" class="btn-schol">Apply for This Scholarship</a>
+    </div>
+    <div class="schol-card">
+      <div class="schol-ribbon">Fully Funded</div>
+      <div class="schol-icon">🌸</div>
+      <div class="schol-name">Confucius Institute Scholarship</div>
+      <p class="schol-desc">Awarded by Hanban to promote Chinese language and culture. Available for language courses and degree programs. Covers full study costs for eligible students.</p>
+      <div class="schol-covers">
+        <span class="schol-tag">Tuition Covered</span>
+        <span class="schol-tag">Accommodation</span>
+        <span class="schol-tag">Stipend</span>
+        <span class="schol-tag">Language Training</span>
+      </div>
+      <a href="#contact" class="btn-schol">Apply for This Scholarship</a>
+    </div>
+    <div class="schol-card">
+      <div class="schol-icon">🏢</div>
+      <div class="schol-name">Provincial Government Scholarships</div>
+      <p class="schol-desc">Many Chinese provinces offer their own scholarships to attract international talent. Eligibility and coverage vary by province. We help you identify options in your target city.</p>
+      <div class="schol-covers">
+        <span class="schol-tag">Partial Tuition</span>
+        <span class="schol-tag">Accommodation Subsidy</span>
+        <span class="schol-tag">Living Allowance</span>
+      </div>
+      <a href="#contact" class="btn-schol">Check Eligibility</a>
+    </div>
+    <div class="schol-card">
+      <div class="schol-icon">🎓</div>
+      <div class="schol-name">University-Specific Scholarships</div>
+      <p class="schol-desc">Most Chinese universities offer their own merit-based scholarships for outstanding international students. These can cover 25% to 100% of tuition fees depending on your academic profile.</p>
+      <div class="schol-covers">
+        <span class="schol-tag">Merit-Based</span>
+        <span class="schol-tag">25%–100% Tuition</span>
+        <span class="schol-tag">Performance Renewals</span>
+      </div>
+      <a href="#contact" class="btn-schol">Explore University Aid</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO APPLY -->
+<section class="apply-section fade-up" id="how-to-apply">
+  <div class="section-header">
+    <span class="section-tag">The Process</span>
+    <h2 class="section-title">How to Apply in 5 Easy Steps</h2>
+    <p class="section-sub">We make the process simple. From your first enquiry to landing in China, we're with you every step of the way.</p>
+  </div>
+  <div class="steps-row">
+    <div class="step-item">
+      <div class="step-num">1</div>
+      <div class="step-icon">📝</div>
+      <div class="step-title">Fill Application Form</div>
+      <p class="step-desc">Complete our simple online enquiry form. Tell us your desired program, budget, and goals.</p>
+    </div>
+    <div class="step-item">
+      <div class="step-num">2</div>
+      <div class="step-icon">📄</div>
+      <div class="step-title">Submit Documents</div>
+      <p class="step-desc">We'll guide you through the required documents — transcripts, passport copy, medical records, and more.</p>
+    </div>
+    <div class="step-item">
+      <div class="step-num">3</div>
+      <div class="step-icon">✅</div>
+      <div class="step-title">Get Accepted</div>
+      <p class="step-desc">We submit to your chosen universities and handle correspondence until you receive your official acceptance letter.</p>
+    </div>
+    <div class="step-item">
+      <div class="step-num">4</div>
+      <div class="step-icon">🛂</div>
+      <div class="step-title">Apply for Visa</div>
+      <p class="step-desc">We assist with your X1 or X2 student visa application, ensuring all documents are correctly prepared.</p>
+    </div>
+    <div class="step-item">
+      <div class="step-num">5</div>
+      <div class="step-icon">✈️</div>
+      <div class="step-title">Travel & Begin!</div>
+      <p class="step-desc">Fly to China, start your university journey, and begin building your future. We even offer pre-departure orientation!</p>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:48px;">
+    <a href="#contact" class="btn-primary">Start Your Application Today</a>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="why-section fade-up">
+  <div class="section-header">
+    <span class="section-tag">Our Advantage</span>
+    <h2 class="section-title">Why Choose Future Drive?</h2>
+    <p class="section-sub">We're not just agents — we're your partners in building a brighter future.</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">🎯</div>
+      <div class="why-title">Expert Guidance & Support</div>
+      <p class="why-desc">Our experienced consultants understand Chinese university systems deeply and provide personalised advice tailored to your academic profile and career goals.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🔗</div>
+      <div class="why-title">Direct University Partnerships</div>
+      <p class="why-desc">We maintain direct, official relationships with 500+ Chinese universities, giving you faster processing and better chances of acceptance.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">💸</div>
+      <div class="why-title">Scholarship Assistance</div>
+      <p class="why-desc">We proactively identify scholarship opportunities you qualify for and guide you through the full application process to maximize your funding.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🛂</div>
+      <div class="why-title">Visa Application Support</div>
+      <p class="why-desc">Chinese student visa applications can be complex. Our team ensures every document is correctly prepared and submitted, minimising delays and rejection risks.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🌐</div>
+      <div class="why-title">Multilingual Support</div>
+      <p class="why-desc">We serve students from across Africa and beyond, offering support in English, Shona, and French. No barrier too big for your dream.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">📲</div>
+      <div class="why-title">24/7 WhatsApp Support</div>
+      <p class="why-desc">Reach us anytime on WhatsApp from China (+86) or Zimbabwe (+263). Questions don't wait for business hours, and neither do we.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section fade-up">
+  <div class="section-header">
+    <span class="section-tag">Student Stories</span>
+    <h2 class="section-title">What Our Students Say</h2>
+    <p class="section-sub">Real stories from students whose lives changed when they chose Future Drive Consultancy.</p>
+  </div>
+  <div class="testi-carousel">
+    <div class="testi-slides">
+      <div class="testi-slide active">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">Future Drive made my dream of studying medicine in China a reality. They handled everything — my documents, scholarship application, and even helped me find accommodation before I arrived. I'm now in my second year of MBBS and loving every moment.</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,var(--red),#e84040)">TA</div>
+          <div class="testi-info">
+            <div class="name">Tatenda Moyo 🇿🇼</div>
+            <div class="detail">MBBS Student · Wuhan University · Zimbabwe</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-slide">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">I applied to five universities and got into three, including a fully-funded CSC scholarship position. None of this would have happened without the team at Future Drive. They replied to my WhatsApp messages even at midnight during exam season!</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,var(--navy),var(--navy-light))">EO</div>
+          <div class="testi-info">
+            <div class="name">Emeka Okafor 🇳🇬</div>
+            <div class="detail">Bachelor's in Engineering · Tongji University · Nigeria</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-slide">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">As a Kenyan student with limited financial resources, I didn't think studying in China was possible. Future Drive identified a provincial scholarship I didn't even know existed and helped me secure it. Now I'm pursuing my Master's degree in Shanghai!</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#2d7a22,#1a4d12)">AW</div>
+          <div class="testi-info">
+            <div class="name">Aisha Wanjiku 🇰🇪</div>
+            <div class="detail">Master's in Business · Fudan University · Kenya</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-slide">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">The visa process seemed incredibly daunting but Future Drive walked me through every single step. I received my visa on first application and was on the plane to Beijing within 6 weeks of getting my acceptance letter. Highly recommend!</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#7b2d8b,#4a1060)">KA</div>
+          <div class="testi-info">
+            <div class="name">Kwame Asante 🇬🇭</div>
+            <div class="detail">PhD in Computer Science · Peking University · Ghana</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-slide">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">From the first WhatsApp message to the moment I sat in my first university class, Future Drive was there. They arranged airport pickup guidance, helped me open a Chinese bank account and answered hundreds of my questions. Amazing service.</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,var(--gold-dark),#8b6914)">BN</div>
+          <div class="testi-info">
+            <div class="name">Brenda Namutebi 🇺🇬</div>
+            <div class="detail">Bachelor's in Medicine · Huazhong University · Uganda</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-dots">
+      <button class="testi-dot active" onclick="goSlide(0)"></button>
+      <button class="testi-dot" onclick="goSlide(1)"></button>
+      <button class="testi-dot" onclick="goSlide(2)"></button>
+      <button class="testi-dot" onclick="goSlide(3)"></button>
+      <button class="testi-dot" onclick="goSlide(4)"></button>
+    </div>
+    <div class="testi-arrows">
+      <button class="testi-arrow" onclick="prevSlide()">←</button>
+      <button class="testi-arrow" onclick="nextSlide()">→</button>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section fade-up" id="contact">
+  <div class="contact-grid">
+    <div class="contact-info-side">
+      <span class="section-tag">Get In Touch</span>
+      <h2 class="section-title">Start Your Application Today</h2>
+      <p class="section-sub">Have questions? Want to apply? Reach out to us on WhatsApp or fill the form. We respond within hours.</p>
+      <br>
+      <div class="contact-item">
+        <span class="contact-icon">📱</span>
+        <div class="contact-detail">
+          <strong>China Office</strong>
+          <a href="tel:+8618655523744">+86 186 55523744</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">📱</span>
+        <div class="contact-detail">
+          <strong>Zimbabwe Office</strong>
+          <a href="tel:+26371801755">+263 71 8017550</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">📧</span>
+        <div class="contact-detail">
+          <strong>Email</strong>
+          <a href="mailto:info@futuredriveconsultancy.com">info@futuredriveconsultancy.com</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">🕐</span>
+        <div class="contact-detail">
+          <strong>Office Hours</strong>
+          <a href="#">Mon–Sat: 8:00 AM – 8:00 PM (CAT/CST)</a>
+        </div>
+      </div>
+      <div class="wa-buttons">
+        <a href="https://wa.me/8618655523744" target="_blank" class="wa-btn">
+          <span class="wa-btn-icon">💬</span>
+          WhatsApp China: +86 186 55523744
+        </a>
+        <a href="https://wa.me/26371801755" target="_blank" class="wa-btn">
+          <span class="wa-btn-icon">💬</span>
+          WhatsApp Zimbabwe: +263 71 8017550
+        </a>
+      </div>
+    </div>
+    <div class="contact-form-side">
+      <div class="form-title">📝 Application Enquiry Form</div>
+      <form id="appForm" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" placeholder="John Doe" required>
+          </div>
+          <div class="form-group">
+            <label>Email Address *</label>
+            <input type="email" placeholder="john@email.com" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phone / WhatsApp *</label>
+            <input type="tel" placeholder="+263 77..." required>
+          </div>
+          <div class="form-group">
+            <label>Country of Origin *</label>
+            <input type="text" placeholder="Zimbabwe" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Desired Program *</label>
+          <select required>
+            <option value="">Select a Program...</option>
+            <option>MBBS / Medical Degree</option>
+            <option>Bachelor's Degree</option>
+            <option>Master's Degree</option>
+            <option>PhD / Doctoral Program</option>
+            <option>Diploma Program</option>
+            <option>Chinese Language Course</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Intended Intake</label>
+          <select>
+            <option>March 2026</option>
+            <option>September 2026</option>
+            <option>I'm Not Sure Yet</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Message / Additional Info</label>
+          <textarea placeholder="Tell us about your academic background, desired field of study, budget, or any questions you have..."></textarea>
+        </div>
+        <button type="submit" class="btn-submit">🎓 Submit Application</button>
+      </form>
+      <div class="form-success" id="formSuccess">
+        <div class="form-success-icon">🎉</div>
+        <h3>Application Received!</h3>
+        <p>Thank you! Our team will contact you within 24 hours via WhatsApp or email. Your future in China awaits!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section class="blog-section fade-up">
+  <div class="section-header">
+    <span class="section-tag">Resources</span>
+    <h2 class="section-title">Latest News & Tips</h2>
+    <p class="section-sub">Stay informed with guides, scholarship news, and insider tips for studying in China.</p>
+  </div>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-header">🏫</div>
+      <div class="blog-meta">
+        <div class="blog-date">February 10, 2026</div>
+        <div class="blog-title">Top 10 Universities in China for International Students 2026</div>
+        <p class="blog-excerpt">Discover China's highest-ranked universities for international students, including rankings, strengths, scholarship availability, and living costs.</p>
+        <a href="#" class="blog-link">Read More →</a>
+      </div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-header">💰</div>
+      <div class="blog-meta">
+        <div class="blog-date">January 28, 2026</div>
+        <div class="blog-title">How to Get a Full Scholarship to Study in China in 2026</div>
+        <p class="blog-excerpt">A complete step-by-step guide to the Chinese Government Scholarship (CSC), provincial scholarships, and university-specific awards — with application tips.</p>
+        <a href="#" class="blog-link">Read More →</a>
+      </div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-header">🛂</div>
+      <div class="blog-meta">
+        <div class="blog-date">January 15, 2026</div>
+        <div class="blog-title">Chinese Student Visa Guide: Everything You Need to Know</div>
+        <p class="blog-excerpt">Understand the X1 vs X2 visa, required documents, processing times, and common mistakes to avoid when applying for your Chinese student visa.</p>
+        <a href="#" class="blog-link">Read More →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo-wrap" style="margin-bottom:12px">
+        <svg width="44" height="44" viewBox="0 0 52 52" fill="none">
+          <circle cx="26" cy="26" r="26" fill="#1A2980"/>
+          <path d="M14 38 L26 18 L38 38" stroke="#F1C40F" stroke-width="2.5" stroke-linecap="round"/>
+          <rect x="18" y="10" width="16" height="3" rx="1.5" fill="#C0392B"/>
+          <polygon points="26,5 18,10 34,10" fill="#C0392B"/>
+          <circle cx="26" cy="11.5" r="2" fill="#F1C40F"/>
+        </svg>
+        <div class="logo-text">
+          <span class="logo-name">Future Drive</span>
+          <span class="logo-name">Consultancy</span>
+          <span class="logo-tag">Bridging Dreams · Building Futures in China</span>
+        </div>
+      </div>
+      <p class="footer-tagline">"Bridging Dreams, Building Futures in China"</p>
+      <div class="social-row">
+        <a href="#" class="social-btn">📘</a>
+        <a href="#" class="social-btn">📸</a>
+        <a href="#" class="social-btn">💼</a>
+        <a href="#" class="social-btn">▶️</a>
+        <a href="#" class="social-btn">🎵</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul class="footer-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#programs">Programs</a></li>
+        <li><a href="#scholarships">Scholarships</a></li>
+        <li><a href="#universities">Universities</a></li>
+        <li><a href="#how-to-apply">How to Apply</a></li>
+        <li><a href="#contact">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Programs</h4>
+      <ul class="footer-links">
+        <li><a href="#programs">MBBS / Medical</a></li>
+        <li><a href="#programs">Bachelor's Degree</a></li>
+        <li><a href="#programs">Master's Degree</a></li>
+        <li><a href="#programs">PhD / Doctoral</a></li>
+        <li><a href="#programs">Diploma Programs</a></li>
+        <li><a href="#programs">Chinese Language</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact Us</h4>
+      <div class="footer-contact-item">
+        <span>📱</span>
+        <a href="tel:+8618655523744">+86 186 55523744 (China)</a>
+      </div>
+      <div class="footer-contact-item">
+        <span>📱</span>
+        <a href="tel:+26371801755">+263 71 8017550 (Zimbabwe)</a>
+      </div>
+      <div class="footer-contact-item">
+        <span>📧</span>
+        <a href="mailto:info@futuredriveconsultancy.com">info@futuredriveconsultancy.com</a>
+      </div>
+      <div class="footer-contact-item">
+        <span>💬</span>
+        <a href="https://wa.me/8618655523744" target="_blank">WhatsApp Us (China)</a>
+      </div>
+      <div class="footer-contact-item">
+        <span>💬</span>
+        <a href="https://wa.me/26371801755" target="_blank">WhatsApp Us (Zimbabwe)</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Future Drive Consultancy. All Rights Reserved.</span>
+    <span class="footer-motto">Bridging Dreams, Building Futures in China</span>
+  </div>
+</footer>
+
+<!-- FLOATING BUTTONS -->
+<a href="https://wa.me/8618655523744" target="_blank" class="wa-float" title="Chat on WhatsApp">💬</a>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+  // NAV scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    document.getElementById('backTop').classList.toggle('show', window.scrollY > 400);
+  });
+
+  // Mobile menu
+  function openMenu() { document.getElementById('mobileMenu').classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeMenu() { document.getElementById('mobileMenu').classList.remove('open'); document.body.style.overflow=''; }
+
+  // Fade up on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Counter animation
+  function animateCounter(el) {
+    const target = +el.dataset.target;
+    const duration = 2000;
+    const step = target / (duration / 16);
+    let current = 0;
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= target) { el.textContent = target.toLocaleString() + '+'; clearInterval(timer); }
+      else { el.textContent = Math.floor(current).toLocaleString() + '+'; }
+    }, 16);
+  }
+  const statsObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        document.querySelectorAll('[data-target]').forEach(animateCounter);
+        statsObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.5 });
+  const statsEl = document.querySelector('.stats-row');
+  if (statsEl) statsObserver.observe(statsEl);
+
+  // Testimonials
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.testi-slide');
+  const dots = document.querySelectorAll('.testi-dot');
+  function goSlide(n) {
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
+    currentSlide = (n + slides.length) % slides.length;
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+  }
+  function nextSlide() { goSlide(currentSlide + 1); }
+  function prevSlide() { goSlide(currentSlide - 1); }
+  setInterval(nextSlide, 5000);
+
+  // Form submission
+  function handleSubmit(e) {
+    e.preventDefault();
+    e.target.style.display = 'none';
+    document.getElementById('formSuccess').classList.add('show');
+  }
+</script>
+</body>
+</html>
